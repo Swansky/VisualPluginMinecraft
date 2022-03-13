@@ -1,0 +1,10 @@
+name: VisualPluginMinecraft
+version: '${version}'
+main: fr.swansky.visualpluginminecraft.VisualPluginMinecraft
+api-version: 1.18
+authors: [ swansky ]
+commands:
+  visual:
+    description: visual command
+    usage: /visual
+
