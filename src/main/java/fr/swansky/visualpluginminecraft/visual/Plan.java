@@ -1,4 +1,4 @@
-package fr.swansky.visualpluginminecraft.plans;
+package fr.swansky.visualpluginminecraft.visual;
 
 import fr.swansky.visualpluginminecraft.VisualPluginMinecraft;
 import org.bukkit.Bukkit;
@@ -6,6 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitTask;
+import org.mariuszgromada.math.mxparser.Function;
 
 public abstract class Plan {
 
@@ -20,9 +21,17 @@ public abstract class Plan {
     protected Particle.DustOptions valueDustOption = new Particle.DustOptions(Color.RED, 1);
     protected Particle particle = Particle.REDSTONE;
     protected BukkitTask axisRefreshTask, valueRefreshTask;
+    protected Function function;
+    protected int maxVariable;
 
     public Plan(Location centerLocation) {
         this.centerLocation = centerLocation;
+        maxVariable = 1;
+    }
+
+    public Plan(Location centerLocation, int maxVariable) {
+        this.centerLocation = centerLocation;
+        this.maxVariable = maxVariable;
     }
 
     public void initPlan() {
@@ -41,16 +50,21 @@ public abstract class Plan {
 
     protected abstract void drawValue();
 
-    public void defineFormula(String formula) {
+    public void defineFormula(String formula) throws Exception {
+        this.function = new Function(formula);
 
+        if (function.getArgumentsNumber() > maxVariable) {
+            throw new Exception(String.format("Only '%s' arguments is accepted", maxVariable));
+        } else if (function.getArgumentsNumber() == 0) {
+            throw new Exception("Impossible to compute function without variable");
+        }
     }
 
 
     protected void spawnParticleAt(Location location, Particle.DustOptions options) {
-        if(options !=null){
+        if (options != null) {
             centerLocation.getWorld().spawnParticle(particle, location, particleCount, options);
-        }else
-        {
+        } else {
             spawnParticleAt(location);
         }
 

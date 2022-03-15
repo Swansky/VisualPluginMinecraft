@@ -1,4 +1,4 @@
-package fr.swansky.visualpluginminecraft.plans;
+package fr.swansky.visualpluginminecraft.visual;
 
 import org.bukkit.Location;
 
@@ -35,7 +35,7 @@ public class Plan2D extends Plan {
     @Override
     public void drawValue() {
         for (double x = -axisSizeX; x < axisSizeX; x += gapValue) {
-            double y = Math.pow(x, 3);
+            double y = function.calculate(x);
             Location nextLocation = new Location(centerLocation.getWorld(),
                     centerLocation.getX() + x,
                     centerLocation.getY() + y,

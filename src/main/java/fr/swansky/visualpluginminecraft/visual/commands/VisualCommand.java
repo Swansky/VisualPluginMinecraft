@@ -1,8 +1,8 @@
-package fr.swansky.visualpluginminecraft.commands;
+package fr.swansky.visualpluginminecraft.visual.commands;
 
-import fr.swansky.visualpluginminecraft.plans.Plan;
-import fr.swansky.visualpluginminecraft.plans.Plan2D;
-import fr.swansky.visualpluginminecraft.plans.Plan3D;
+import fr.swansky.visualpluginminecraft.visual.Plan;
+import fr.swansky.visualpluginminecraft.visual.Plan2D;
+import fr.swansky.visualpluginminecraft.visual.Plan3D;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,7 +39,13 @@ public class VisualCommand implements CommandExecutor {
                     player.sendMessage("Invalid Plan type. 2D or 3D accept");
                     return true;
                 }
-                plan.defineFormula(formula);
+                try {
+                    plan.defineFormula(formula);
+                } catch (Exception e) {
+                    player.sendMessage("Invalid function: " + e.getMessage());
+                }
+            } else {
+                player.sendMessage("visual <plan type> <expression>");
             }
 
 

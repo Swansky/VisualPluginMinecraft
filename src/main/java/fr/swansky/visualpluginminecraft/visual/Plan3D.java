@@ -1,4 +1,4 @@
-package fr.swansky.visualpluginminecraft.plans;
+package fr.swansky.visualpluginminecraft.visual;
 
 import org.bukkit.Location;
 
@@ -7,9 +7,11 @@ public class Plan3D extends Plan {
     private int axisSizeZ = 5;
 
     public Plan3D(Location centerLocation) {
-        super(centerLocation);
-        this.particleCount = 1;
+        super(centerLocation, 2);
+        this.particleCount = 2;
         this.gapValue = 1;
+        this.axisSizeX = axisSizeZ;
+        this.axisSizeY = axisSizeZ;
     }
 
 
@@ -48,15 +50,27 @@ public class Plan3D extends Plan {
 
     @Override
     public void drawValue() {
-        for (double x = -axisSizeX; x < axisSizeX; x += gapValue) {
-            for (int z = -axisSizeZ; z < axisSizeZ; z += gapValue) {
-                double y = x * z;
+        if (function.getArgumentsNumber() == 1) {
+            for (double x = -axisSizeX; x < axisSizeX; x += gapValue) {
+                double y = function.calculate(x);
                 Location nextLocation = new Location(centerLocation.getWorld(),
                         centerLocation.getX() + x,
                         centerLocation.getY() + y,
-                        centerLocation.getZ() + z);
+                        centerLocation.getZ());
                 spawnParticleAt(nextLocation, valueDustOption);
             }
+        } else {
+            for (double x = -axisSizeX; x < axisSizeX; x += gapValue) {
+                for (int z = -axisSizeZ; z < axisSizeZ; z += gapValue) {
+                    double y = function.calculate(x, z);
+                    Location nextLocation = new Location(centerLocation.getWorld(),
+                            centerLocation.getX() + x,
+                            centerLocation.getY() + y,
+                            centerLocation.getZ() + z);
+                    spawnParticleAt(nextLocation, valueDustOption);
+                }
+            }
         }
+
     }
 }

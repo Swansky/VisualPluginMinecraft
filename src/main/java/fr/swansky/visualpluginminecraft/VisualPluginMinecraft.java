@@ -1,6 +1,6 @@
 package fr.swansky.visualpluginminecraft;
 
-import fr.swansky.visualpluginminecraft.commands.VisualCommand;
+import fr.swansky.visualpluginminecraft.visual.commands.VisualCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class VisualPluginMinecraft extends JavaPlugin {
